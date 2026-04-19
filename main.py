@@ -52,7 +52,6 @@ def save_to_history(recipient, subject, status):
     with open("history.json", "w") as f:
         json.dump(history, f, indent=2)
 
-
 def send_one_email(sender_email, sender_password, recipient, subject, body): 
     # Build the email message
     msg = MIMEMultipart()
@@ -87,7 +86,6 @@ def send_one_email(sender_email, sender_password, recipient, subject, body):
 
 class EmailApp:
     def __init__(self, window):
-    
         self.window = window
         self.window.title("Bulk Email Sender")
         self.window.geometry("650x550")
@@ -99,12 +97,8 @@ class EmailApp:
         self.build_ui()
     
     def build_ui(self):        
-        title = tk.Label(
-            self.window,
-            text="Bulk Email Sender",
-            font=("Arial", 18, "bold"),
-            bg="#f0f4ff", fg="#2c3e8c"
-        )
+        title = tk.Label(self.window, text="Bulk Email Sender",font=("Arial", 18, "bold"),
+                bg="#f0f4ff", fg="#2c3e8c")
         title.pack(pady=10)
         
         self.tabs = ttk.Notebook(self.window)
@@ -118,6 +112,7 @@ class EmailApp:
     
     # ----------------------------------------------------------
     # SEND EMAIL
+    
     def build_tab_send(self):
         
         tab = tk.Frame(self.tabs, bg="white", padx=15, pady=10)
@@ -128,22 +123,19 @@ class EmailApp:
             row.pack(fill="x", pady=4)
             tk.Label(row, text=label_text, width=18, anchor="w",
                      bg="white", font=("Arial", 10)).pack(side="left")
-            entry = tk.Entry(row, font=("Arial", 10), relief="solid",
-                             bd=1, show=show_char or "")
+            entry = tk.Entry(row, font=("Arial", 10), relief="solid", bd=1, show=show_char or "")
             entry.pack(side="left", fill="x", expand=True)
             return entry
         
         # --- Input fields ---
         tk.Label(tab, text="Your Gmail Credentials",
-                 font=("Arial", 11, "bold"), bg="white", fg="#2c3e8c"
-                 ).pack(anchor="w", pady=(0, 3))
+                 font=("Arial", 11, "bold"), bg="white", fg="#2c3e8c").pack(anchor="w", pady=(0, 3))
         
-        self.entry_email    = add_field("Your Gmail:")
+        self.entry_email = add_field("Your Gmail:")
         self.entry_password = add_field("App Password:", show_char="*")
         
-        tk.Label(tab, text="Email Content",
-                 font=("Arial", 11, "bold"), bg="white", fg="#2c3e8c"
-                 ).pack(anchor="w", pady=(0, 3))
+        tk.Label(tab, text="Email Content",font=("Arial", 11, "bold"), bg="white",
+                 fg="#2c3e8c").pack(anchor="w", pady=(0, 3))
         
         self.entry_subject = add_field("Subject:")
         
@@ -152,26 +144,17 @@ class EmailApp:
         recip_row.pack(fill="x", pady=4)
         tk.Label(recip_row, text="To (emails):", width=18, anchor="w",
                  bg="white", font=("Arial", 10)).pack(side="left")
-        self.entry_to = tk.Entry(recip_row, font=("Arial", 10),
-                                  relief="solid", bd=1)
+        self.entry_to = tk.Entry(recip_row, font=("Arial", 10), relief="solid", bd=1)
         self.entry_to.pack(side="left", fill="x", expand=True)
         
-        tk.Label(tab, text="Message:", bg="white",
-                 font=("Arial", 10)).pack(anchor="w", pady=(6, 2))
+        tk.Label(tab, text="Message:", bg="white", font=("Arial", 10)).pack(anchor="w", pady=(6, 2))
         
-        self.text_body = tk.Text(tab, height=6, font=("Arial", 10),
-                                  relief="solid", bd=1, wrap="word")
+        self.text_body = tk.Text(tab, height=6, font=("Arial", 10), relief="solid", bd=1, wrap="word")
         self.text_body.pack(fill="x")
         
         # --- SEND button ---
-        send_btn = tk.Button(
-            tab,
-            text="SEND EMAIL(S)",
-            command=self.send_emails,           # calls send_emails() on click
-            bg="#2c3e8c", fg="white",
-            font=("Arial", 12, "bold"),
-            relief="flat", pady=8, cursor="hand2"
-        )
+        send_btn = tk.Button(tab,vtext="SEND EMAIL(S)", command=self.send_emails, bg="#2c3e8c", fg="white", font=("Arial", 12, "bold"),
+            relief="flat", pady=8, cursor="hand2")
         send_btn.pack(fill="x")
         
         self.label_status = tk.Label(
@@ -179,7 +162,6 @@ class EmailApp:
             font=("Arial", 9), fg="#2c3e8c"
         )
         self.label_status.pack(pady=5)
-    
     
     # ----------------------------------------------------------
     #  TAB 2: LOAD CONTACTS FROM CSV
@@ -190,8 +172,7 @@ class EmailApp:
         self.tabs.add(tab, text="   Contacts  ")
         
         tk.Label(tab, text="Load Contacts from CSV File",
-                 font=("Arial", 13, "bold"), bg="white", fg="#2c3e8c"
-                 ).pack(anchor="w")
+                 font=("Arial", 13, "bold"), bg="white", fg="#2c3e8c").pack(anchor="w")
         
         tk.Label(tab,
             text=(
@@ -200,17 +181,12 @@ class EmailApp:
                 "   Ali Hassan,ali@gmail.com,HK Academy\n"
                 "   Sara Khan,sara@gmail.com,Tech Corp\n"
             ),
-            font=("Courier New", 10),
-            bg="#f8f9ff", fg="#333",
-            justify="left", relief="solid", bd=1, padx=10, pady=8
-        ).pack(fill="x", pady=10)
+            font=("Courier New", 10), bg="#f8f9ff", fg="#333", justify="left", relief="solid", bd=1,
+              padx=10, pady=8).pack(fill="x", pady=10)
         
         # Load CSV button
         def load_csv():
-            filepath = filedialog.askopenfilename(
-                title="Choose your CSV file",
-                filetypes=[("CSV files", "*.csv")]
-            )
+            filepath = filedialog.askopenfilename(title="Choose your CSV file", filetypes=[("CSV files", "*.csv")])
             if not filepath:
                 return   # user cancelled
             
@@ -234,15 +210,10 @@ class EmailApp:
             self.entry_to.delete(0, "end")
             self.entry_to.insert(0, emails)
         
-        tk.Button(tab, text="Browse & Load CSV",
-            command=load_csv,
-            bg="#2c3e8c", fg="white",
-            font=("Arial", 11, "bold"),
-            relief="flat", pady=8, cursor="hand2"
-        ).pack(fill="x")
+        tk.Button(tab, text="Browse & Load CSV", command=load_csv, bg="#2c3e8c", fg="white", font=("Arial", 11, "bold"),
+            relief="flat", pady=8, cursor="hand2").pack(fill="x")
         
-        count_label = tk.Label(tab, text="No contacts loaded yet",
-                               bg="white", fg="gray", font=("Arial", 9))
+        count_label = tk.Label(tab, text="No contacts loaded yet", bg="white", fg="gray", font=("Arial", 9))
         count_label.pack(pady=5)
         
         frame = tk.Frame(tab, bg="white")
@@ -251,9 +222,7 @@ class EmailApp:
         scrollbar = tk.Scrollbar(frame)
         scrollbar.pack(side="right", fill="y")
         
-        listbox = tk.Listbox(frame, font=("Arial", 9),
-                              yscrollcommand=scrollbar.set,
-                              relief="solid", bd=1)
+        listbox = tk.Listbox(frame, font=("Arial", 9), yscrollcommand=scrollbar.set, relief="solid", bd=1)
         listbox.pack(fill="both", expand=True)
         scrollbar.config(command=listbox.yview)
 
@@ -266,36 +235,26 @@ class EmailApp:
         self.tabs.add(tab, text="   Templates  ")
         
         tk.Label(tab, text="Choose an Email Template",
-                 font=("Arial", 13, "bold"), bg="white", fg="#2c3e8c"
-                 ).pack(anchor="w", pady=(0, 10))
+                 font=("Arial", 13, "bold"), bg="white", fg="#2c3e8c").pack(anchor="w", pady=(0, 10))
         
         row = tk.Frame(tab, bg="white")
         row.pack(fill="x", pady=5)
         
-        tk.Label(row, text="Template:", bg="white",
-                 font=("Arial", 10)).pack(side="left")
+        tk.Label(row, text="Template:", bg="white", font=("Arial", 10)).pack(side="left")
         
         template_choice = tk.StringVar(value="Welcome")
-        dropdown = ttk.Combobox(row, textvariable=template_choice,
-                                 values=list(TEMPLATES.keys()),
-                                 state="readonly", width=20)
+        dropdown = ttk.Combobox(row, textvariable=template_choice, values=list(TEMPLATES.keys()), state="readonly", width=20)
         dropdown.pack(side="left", padx=10)
         
         # Preview areas
-        tk.Label(tab, text="Subject Preview:",
-                 bg="white", font=("Arial", 10, "bold")
-                 ).pack(anchor="w", pady=(10, 2))
+        tk.Label(tab, text="Subject Preview:", bg="white", font=("Arial", 10, "bold")).pack(anchor="w", pady=(10, 2))
         
-        subject_preview = tk.Entry(tab, font=("Arial", 10),
-                                    relief="solid", bd=1)
+        subject_preview = tk.Entry(tab, font=("Arial", 10), relief="solid", bd=1)
         subject_preview.pack(fill="x")
         
-        tk.Label(tab, text="Body Preview:",
-                 bg="white", font=("Arial", 10, "bold")
-                 ).pack(anchor="w", pady=(8, 2))
+        tk.Label(tab, text="Body Preview:", bg="white", font=("Arial", 10, "bold")).pack(anchor="w", pady=(8, 2))
         
-        body_preview = tk.Text(tab, height=7, font=("Arial", 10),
-                                relief="solid", bd=1, wrap="word")
+        body_preview = tk.Text(tab, height=7, font=("Arial", 10), relief="solid", bd=1, wrap="word")
         body_preview.pack(fill="x")
         
         def show_preview(event=None):
@@ -321,16 +280,10 @@ class EmailApp:
             self.text_body.delete("1.0", "end")
             self.text_body.insert("1.0", tmpl.get("body", ""))
             
-            messagebox.showinfo("Done",
-                f"Template '{name}' applied!\nGo to Send Email tab.")
+            messagebox.showinfo("Done", f"Template '{name}' applied!\nGo to Send Email tab.")
         
-        tk.Button(tab,
-            text="Apply This Template",
-            command=apply_template,
-            bg="#27ae60", fg="white",
-            font=("Arial", 11, "bold"),
-            relief="flat", pady=8, cursor="hand2"
-        ).pack(fill="x", pady=10)
+        tk.Button(tab, text="Apply This Template", command=apply_template, bg="#27ae60", fg="white", font=("Arial", 11, "bold"),
+            relief="flat", pady=8, cursor="hand2").pack(fill="x", pady=10)
     
     # ----------------------------------------------------------
     # VIEW HISTORY
@@ -340,8 +293,7 @@ class EmailApp:
         self.tabs.add(tab, text="   History  ")
         
         tk.Label(tab, text="Sent Email History",
-                 font=("Arial", 13, "bold"), bg="white", fg="#2c3e8c"
-                 ).pack(anchor="w")
+                 font=("Arial", 13, "bold"), bg="white", fg="#2c3e8c").pack(anchor="w")
         
         # Table with columns
         columns = ("Time", "To", "Subject", "Status")
@@ -352,12 +304,7 @@ class EmailApp:
         scrollbar = ttk.Scrollbar(frame, orient="vertical")
         scrollbar.pack(side="right", fill="y")
         
-        self.history_table = ttk.Treeview(
-            frame,
-            columns=columns,
-            show="headings",
-            yscrollcommand=scrollbar.set
-        )
+        self.history_table = ttk.Treeview(frame, columns=columns, show="headings", yscrollcommand=scrollbar.set)
         scrollbar.config(command=self.history_table.yview)
         
         # Set column widths
@@ -378,19 +325,11 @@ class EmailApp:
         btn_row = tk.Frame(tab, bg="white")
         btn_row.pack(fill="x")
         
-        tk.Button(btn_row, text="Refresh",
-            command=self.load_history,
-            bg="#2c3e8c", fg="white",
-            font=("Arial", 9), relief="flat",
-            padx=12, pady=5, cursor="hand2"
-        ).pack(side="left", padx=(0, 5))
+        tk.Button(btn_row, text="Refresh", command=self.load_history, bg="#2c3e8c", fg="white",
+            font=("Arial", 9), relief="flat", padx=12, pady=5, cursor="hand2").pack(side="left", padx=(0, 5))
         
-        tk.Button(btn_row, text="Clear All",
-            command=self.clear_history,
-            bg="#c0392b", fg="white",
-            font=("Arial", 9), relief="flat",
-            padx=12, pady=5, cursor="hand2"
-        ).pack(side="left")
+        tk.Button(btn_row, text="Clear All", command=self.clear_history, bg="#c0392b", fg="white", font=("Arial", 9), relief="flat",
+            padx=12, pady=5, cursor="hand2").pack(side="left")
         
         # Load history on startup
         self.load_history()
@@ -404,8 +343,7 @@ class EmailApp:
         body     = self.text_body.get("1.0", "end").strip()
         
         if not sender or not password or not to_field or not subject or not body:
-            messagebox.showwarning("Missing Info",
-                "Please fill in ALL fields before sending!")
+            messagebox.showwarning("Missing Info", "Please fill in ALL fields before sending!")
             return
         
         recipients = [e.strip() for e in to_field.replace("\n", ",").split(",") if e.strip()]
@@ -414,13 +352,10 @@ class EmailApp:
         failed_count = 0
         
         for email in recipients:
-            
             # Check email looks valid
             if not is_valid_email(email):
                 self.label_status.config(
-                    text=f" Skipped invalid email: {email}",
-                    fg="orange"
-                )
+                    text=f" Skipped invalid email: {email}", fg="orange")
                 save_to_history(email, subject, "Invalid")
                 failed_count += 1
                 continue
@@ -440,9 +375,7 @@ class EmailApp:
             personal_body = personal_body.replace("{company}", contact_data.get("company", ""))
             
             # Show status while sending
-            self.label_status.config(
-                text=f"Sending to {email}...", fg="#2c3e8c"
-            )
+            self.label_status.config(text=f"Sending to {email}...", fg="#2c3e8c")
             self.window.update()   # refresh the window so user sees it
             
             # --- Actually send the email ---
@@ -485,14 +418,7 @@ class EmailApp:
             tag = "sent" if "Sent" in status else "failed"
             
             self.history_table.insert("", "end",
-                values=(
-                    record.get("time", ""),
-                    record.get("to", ""),
-                    record.get("subject", ""),
-                    status
-                ),
-                tags=(tag,)
-            )
+                values=(record.get("time", ""), record.get("to", ""), record.get("subject", ""), status), tags=(tag,))
         
     def clear_history(self):
         # Delete all history records.
@@ -501,10 +427,10 @@ class EmailApp:
             with open("history.json", "w") as f:
                 json.dump([], f)   # save empty list
             self.load_history()    # refresh the table
+
 # ============================================================
 
 if __name__ == "__main__":
     window = tk.Tk()
-    
     app = EmailApp(window)
     window.mainloop()
